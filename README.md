@@ -1,1 +1,1 @@
-# WebStore application based on nodejs / js
+"simple project which based on node.js"
