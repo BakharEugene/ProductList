@@ -2,20 +2,29 @@
 
 This application presents a web store with opportunity to logged users manipulate with products.
 
-Roles in application:
+Roles and REST api functions in application:
 
 1. ADMIN:
 >GET – load all products
+
 >GET – load one product by id
+
 >POST – add new product
+
 >PUT – update information about product
+
 >DELETE – delete product
 2. USER:
 >GET – load all products
+
 >GET – load one product by id
+
 >GET – load all products in cart
+
 >POST – add exists product to cart
+
 >DELETE – delete product from cart
 3. GUEST:
 >GET – load all products
+
 >GET – load one product by id
