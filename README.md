@@ -5,6 +5,7 @@ This application presents a web store with opportunity to logged users manipulat
 Roles and REST api functions in application:
 
 1. ADMIN:
+
 >GET – load all products
 
 >GET – load one product by id
@@ -16,6 +17,7 @@ Roles and REST api functions in application:
 >DELETE – delete product
 
 2. USER:
+
 >GET – load all products
 
 >GET – load one product by id
@@ -27,6 +29,7 @@ Roles and REST api functions in application:
 >DELETE – delete product from cart
 
 3. GUEST:
+
 >GET – load all products
 
 >GET – load one product by id
