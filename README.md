@@ -14,6 +14,7 @@ Roles and REST api functions in application:
 >PUT – update information about product
 
 >DELETE – delete product
+
 2. USER:
 >GET – load all products
 
@@ -24,6 +25,7 @@ Roles and REST api functions in application:
 >POST – add exists product to cart
 
 >DELETE – delete product from cart
+
 3. GUEST:
 >GET – load all products
 
