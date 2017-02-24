@@ -2,7 +2,7 @@ const http = require('http');
 
 const hostname = '127.0.0.1';
 const port = 8082;
-
+function start(){
 const server = http.createServer((request, resolve) => {
   resolve.statusCode = 200;
   resolve.setHeader('Content-Type', 'text/plain');
@@ -11,4 +11,6 @@ const server = http.createServer((request, resolve) => {
 
 server.listen(port, hostname, () => {
   console.log(`Server running at http://${hostname}:${port}/`);
-})
+});
+}
+exports.start=start;
