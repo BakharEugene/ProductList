@@ -2,34 +2,48 @@
 
 This application presents a web store with opportunity to logged users manipulate with products.
 
-Roles and REST api functions in application:
+Main functionality of project:
+	
+	- Registration and authorization to users;
 
-1. ADMIN:
+	- Admin account with global priveleges;
 
->GET /products – load all products
+	- Manipulation with products in list;
 
->GET /product/id – load one product by id
+	- View product information;
 
->POST /new – add new product
+	- Operations with users's cart;
 
->PUT /update– update information about product
+##Roles:
 
->DELETE /delete – delete product
+	- ADMIN
 
-2. USER:
+	- USER
 
->GET /products – load all products
+	- GUEST
 
->GET /product/id – load one product by id
+##REST API in application:
 
->GET /cart/products – load all products in cart
+Authorization:
 
->POST /cart/new – add exists product to cart
+	- POST /auth/register - register new user (username, password);
 
->DELETE /cart/delete – delete product from cart
+	- POST /auth/login - login page;
 
-3. GUEST:
+Operations with products (with roles):
 
->GET /products – load all products
+	- GET /products – load all products (ADMIN, USER, GUEST);
 
->GET /product/id – load one product by id
+	- GET /product/:id – load one product by id (ADMIN, USER, GUEST);
+
+	- GET /cart/products – load all products in cart (USER);
+
+	- POST /products – add new product (ADMIN);
+
+	- PUT /product/:id– update information about product (ADMIN);
+
+	- PUT /cart/product/:id – add exists product to cart (USER);
+
+	- DELETE /product/:id – delete product (ADMIN);
+
+	- DELETE /cart/product/:id – delete product from cart (USER);
