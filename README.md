@@ -6,30 +6,30 @@ Roles and REST api functions in application:
 
 1. ADMIN:
 
->GET – load all products
+>GET /products – load all products
 
->GET – load one product by id
+>GET /product/id – load one product by id
 
->POST – add new product
+>POST /new – add new product
 
->PUT – update information about product
+>PUT /update– update information about product
 
->DELETE – delete product
+>DELETE /delete – delete product
 
 2. USER:
 
->GET – load all products
+>GET /products – load all products
 
->GET – load one product by id
+>GET /product/id – load one product by id
 
->GET – load all products in cart
+>GET /cart/products – load all products in cart
 
->POST – add exists product to cart
+>POST /cart/new – add exists product to cart
 
->DELETE – delete product from cart
+>DELETE /cart/delete – delete product from cart
 
 3. GUEST:
 
->GET – load all products
+>GET /products – load all products
 
->GET – load one product by id
+>GET /product/id – load one product by id
