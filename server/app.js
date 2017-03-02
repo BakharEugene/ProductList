@@ -1,3 +1,7 @@
-var User=require("./models/user.js")
-var eugene=new User("Eugene","Bakhar",20);
-eugene.sayHi();
+function test(){
+
+var connect=require("./db/connectDB")
+    connect.getAll();
+
+}
+exports.test=test;

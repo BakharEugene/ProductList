@@ -2,6 +2,11 @@
   "name": "ProductList",
   "version": "1.0.0",
   "description": "ProductList app",
+  "dependencies": {
+    "express": "^4.14.0",
+    "body-parser": "^1.16.0",
+    "mongodb": "^2.2.22"
+  },
   "main": "index.js",
   "scripts": {
     "start": "node index.js"
@@ -10,6 +15,6 @@
     "type": "git",
     "url": "http://github.com/"
   },
-  "authors": "Artem Kraskovskij, Eugene Bakhar",
+  "authors": "Artem Kraskovskij, Eugene Bakhar,Fedorov Oleg",
   "license": "MIT"
 }
