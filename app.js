@@ -4,15 +4,13 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
-var index = require('./server/routes/index');
+var product = require('./server/routes/products');
 
 var app = express();
 
 // view engine setup
 app.set('/public/views', express.static(__dirname + "/public/views"));
 app.set('view engine', 'ejs');
-
-
 
 
 
@@ -30,7 +28,7 @@ app.use(express.static(path.join(__dirname, 'public/views')));
 
 
 
-app.use('/app', index);
+app.use('/server/routes/product', product);
 
 
 
