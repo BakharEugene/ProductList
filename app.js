@@ -24,10 +24,6 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public/views')));
 
 
-
-
-
-
 app.use('/server/routes/product', product);
 
 

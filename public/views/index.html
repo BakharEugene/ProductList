@@ -17,29 +17,43 @@
     </div>
     <div class="form-group">
         <label for="description">description:</label>
-        <input class="form-control" name="age" />
+        <input class="form-control" name="description" />
+    </div>
+    <div class="form-group">
+        <label for="price">price:</label>
+        <input class="form-control" name="description" />
     </div>
     <div class="panel-body">
-        <button type="submit" class="btn btn-sm btn-primary">Сохранить</button>
-        <a id="reset" class="btn btn-sm btn-primary">Сбросить</a>
+        <button type="submit" class="btn btn-sm btn-primary">Save</button>
+        <a id="reset" class="btn btn-sm btn-primary">Reset</a>
     </div>
 </form>
 <table class="table table-condensed table-striped table-bordered">
-    <thead><tr><th>Id</th><th>Имя</th><th>описание</th><th></th></tr></thead>
+    <thead>
+    <tr>
+        <th>Id</th>
+        <th>Name</th>
+        <th>Description</th>
+        <th>Price</th>
+        <th>
+    Actions
+        </th>
+    </tr></thead>
     <tbody>
     </tbody>
 </table>
 
+
 <script>
     function GetProducts() {
+        alert("GetProducts()");
         $.ajax({
-            url: "E:/Учеба/Зубков/ProductList/server/controllers/products/products",
+            url: "/server/routes/product/products",
             type: "GET",
 
             contentType: "application/json",
 
             success: function (products) {
-alert("juj");
                 var rows = "";
                 $.each(products, function (index, product) {
                     // добавляем полученные элементы в таблицу
@@ -51,8 +65,9 @@ alert("juj");
         });
     }
     function GetProduct(id) {
+        alert("GetProduct(id)");
         $.ajax({
-            url: "../server/controllers/products/products/"+id,
+            url: "/server/routes/product/products/" + id,
             type: "GET",
             contentType: "application/json",
             success: function (product) {
@@ -60,33 +75,45 @@ alert("juj");
                 form.elements["id"].value = product._id;
                 form.elements["name"].value = product.name;
                 form.elements["description"].value = product.description;
+                form.elements["price"].value = product.price;
             }
         });
     }
-    function CreateProduct(productName, productDescription) {
+    function CreateProduct(productName, productDescription, productPrice) {
+        alert("CreateProduct(productName, productDescription, productPrice)");
+
+        alert(productName,productPrice,productDescription);
+
         $.ajax({
-            url: "../server/controllers/products/products",
+            url: "/server/routes/product/products",
             contentType: "application/json",
             method: "POST",
             data: JSON.stringify({
                 name: productName,
-                description: productDescription
+                description: productDescription,
+                price: productPrice
             }),
             success: function (product) {
+
+
                 reset();
                 $("table tbody").append(row(product));
             }
+
         })
     }
-    function EditProduct(productId, productName, productDescription) {
+    function EditProduct(productId, productName, productDescription, productPrice) {
+        alert("EditProduct(productId, productName, productDescription, productPrice)");
+
         $.ajax({
-            url: "../server/controllers/products/products",
+            url: "/server/routes/product/products",
             contentType: "application/json",
             method: "PUT",
             data: JSON.stringify({
                 id: productId,
                 description: productDescription,
-                name: productName
+                name: productName,
+                price: productPrice
             }),
             success: function (product) {
                 reset();
@@ -104,7 +131,7 @@ alert("juj");
 
     function DeleteProduct(id) {
         $.ajax({
-            url: "../server/controllers/products/products/"+id,
+            url: "/server/routes/product/products/" + id,
             contentType: "application/json",
             method: "DELETE",
             success: function (product) {
@@ -114,10 +141,17 @@ alert("juj");
         })
     }
     var row = function (product) {
-        return "<tr data-rowid='" + product._id + "'><td>" + product._id + "</td>" +
-            "<td>" + product.name + "</td> <td>" + product.age + "</td>" +
-            "<td><a class='editLink' data-id='" + product._id + "'>Изменить</a> | " +
-            "<a class='removeLink' data-id='" + product._id + "'>Удалить</a></td></tr>";
+        return "<tr data-rowid='" + product._id + "'>" +
+            "<td>" + product._id + "</td>" +
+            "<td>" + product.name + "</td> " +
+            "<td>" + product.price + "</td> " +
+
+            "<td>" + product.description + "</td>" +
+            "<td>" +
+            "<a class='editLink' data-id='" + product._id + "'>Изменить</a> | " +
+            "<a class='removeLink' data-id='" + product._id + "'>Удалить</a>" +
+            "</td>" +
+            "</tr>";
     }
     $("#reset").click(function (e) {
 
@@ -126,14 +160,24 @@ alert("juj");
     })
 
     $("form").submit(function (e) {
+
         e.preventDefault();
         var id = this.elements["id"].value;
+        alert(id);
+
         var name = this.elements["name"].value;
+        alert(name);
+
         var description = this.elements["description"].value;
+        alert(description);
+
+
+        var price=this.elements["price"].value;
+        alert(price);
         if (id == 0)
-            CreateProduct(name, description);
+            CreateProduct(name, description,price);
         else
-            EditProduct(id, name, description);
+            EditProduct(id, name, description,price);
     });
 
     $("body").on("click", ".editLink", function () {
@@ -144,7 +188,6 @@ alert("juj");
         var id = $(this).data("id");
         DeleteProduct(id);
     })
-
     GetProducts();
 </script>
 </body>
