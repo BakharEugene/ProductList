@@ -1,1 +1,4 @@
+*.iml
+.idea/
+.vs/
 /node_modules/
