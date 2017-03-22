@@ -1,27 +1,27 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width" />
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width"/>
     <title>Product list</title>
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet"/>
     <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
 </head>
 <body>
 <h2>Product list</h2>
-<form name="productForm" >
-    <input type="hidden" name="id" value="0" />
+<form name="productForm">
+    <input type="hidden" name="id" value="0"/>
     <div class="form-group">
         <label for="name">name:</label>
-        <input class="form-control" name="name" />
+        <input class="form-control" name="name"/>
     </div>
     <div class="form-group">
         <label for="description">description:</label>
-        <input class="form-control" name="description" />
+        <input class="form-control" name="description"/>
     </div>
     <div class="form-group">
         <label for="price">price:</label>
-        <input class="form-control" name="description" />
+        <input class="form-control" name="price"/>
     </div>
     <div class="panel-body">
         <button type="submit" class="btn btn-sm btn-primary">Save</button>
@@ -36,9 +36,10 @@
         <th>Description</th>
         <th>Price</th>
         <th>
-    Actions
+            Actions
         </th>
-    </tr></thead>
+    </tr>
+    </thead>
     <tbody>
     </tbody>
 </table>
@@ -80,9 +81,6 @@
         });
     }
     function CreateProduct(productName, productDescription, productPrice) {
-        alert("CreateProduct(productName, productDescription, productPrice)");
-
-        alert(productName,productPrice,productDescription);
 
         $.ajax({
             url: "/server/routes/product/products",
@@ -103,10 +101,9 @@
         })
     }
     function EditProduct(productId, productName, productDescription, productPrice) {
-        alert("EditProduct(productId, productName, productDescription, productPrice)");
 
         $.ajax({
-            url: "/server/routes/product/products",
+            url: "/server/routes/product/products/" + productId,
             contentType: "application/json",
             method: "PUT",
             data: JSON.stringify({
@@ -116,9 +113,9 @@
                 price: productPrice
             }),
             success: function (product) {
-                reset();
-                console.log(product);
                 $("tr[data-rowid='" + product._id + "']").replaceWith(row(product));
+
+                window.location.reload(1);
             }
         })
     }
@@ -135,24 +132,11 @@
             contentType: "application/json",
             method: "DELETE",
             success: function (product) {
-                console.log(product);
                 $("tr[data-rowid='" + product._id + "']").remove();
             }
         })
     }
-    var row = function (product) {
-        return "<tr data-rowid='" + product._id + "'>" +
-            "<td>" + product._id + "</td>" +
-            "<td>" + product.name + "</td> " +
-            "<td>" + product.price + "</td> " +
 
-            "<td>" + product.description + "</td>" +
-            "<td>" +
-            "<a class='editLink' data-id='" + product._id + "'>Изменить</a> | " +
-            "<a class='removeLink' data-id='" + product._id + "'>Удалить</a>" +
-            "</td>" +
-            "</tr>";
-    }
     $("#reset").click(function (e) {
 
         e.preventDefault();
@@ -160,24 +144,17 @@
     })
 
     $("form").submit(function (e) {
-
         e.preventDefault();
         var id = this.elements["id"].value;
-        alert(id);
-
         var name = this.elements["name"].value;
-        alert(name);
-
         var description = this.elements["description"].value;
-        alert(description);
-
-
-        var price=this.elements["price"].value;
+        var price = this.elements["price"].value;
+        if (id == 0) {
         alert(price);
-        if (id == 0)
-            CreateProduct(name, description,price);
+            CreateProduct(name, description, price);
+        }
         else
-            EditProduct(id, name, description,price);
+            EditProduct(id, name, description, price);
     });
 
     $("body").on("click", ".editLink", function () {

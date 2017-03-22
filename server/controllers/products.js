@@ -1,92 +1,77 @@
 var express = require("express");
 var bodyParser = require("body-parser");
-var mongoClient = require("mongodb").MongoClient;
 var objectId = require("mongodb").ObjectID;
+var Product = require('../models/products');
 
 var jsonParser = bodyParser.json();
 var url = "mongodb://localhost:27017/productlistdb";
 
 function getProducts(req, res) {
-
-    mongoClient.connect(url, function (err, db) {
-        db.collection("products").find({}).toArray(function (err, products) {
-            res.send(products);
-        });
-    });
+    Product.find(function (err, products) {
+        if (err)return console.error(err);
+        res.send(products);
+    })
 
 };
 
 function getProductById(req, res) {
-    console.log("getProductById");
-    var id = new objectId(req.params.id);
-    mongoClient.connect(url, function (err, db) {
-        db.collection("products").findOne({_id: id}, function (err, product) {
+    console.log("my tut v product py id");
+    var id = new objectId(req.params.id)
+    Product.findOne({_id: id}, function (err, product) {
+        if (err) return console.error(err);
+        res.send(product);
 
-            if (err) return res.status(400).send();
-
-            res.send(product);
-            db.close();
-        });
-    });
+    })
 };
 
 function updateProduct(req, res) {
-    if (!req.body) return res.sendStatus(400);
-    var id = new objectId(req.body.id);
-    var productName = req.body.name;
-    var productDescription = req.body.description;
-    var productPrice = req.body.price;
-    mongoClient.connect(url, function (err, db) {
-        db.collection("products").findOneAndUpdate({_id: id}, {
-                $set: {
-                    name: productName,
-                    description: productDescription,
-                    price:productPrice
-                }
-            },
-            {returnOriginal: false}, function (err, result) {
-                if (err) return res.status(400).send();
-                var product = result.value;
-                res.send(product);
-                db.close();
-            });
+    var id = new objectId(req.params.id);
+    Product.findOne({_id: id}, function (err, product) {
+        if (err) return console.error(err);
+        var body = {
+            description: req.body.description,
+            name: req.body.name,
+            price: req.body.price
+        };
+        console.log(body);
+        product.update(body, function (err, result) {
+
+            if (err) throw err;
+            console.log(result);
+            console.log("1");
+            res.send(product);
+        })
     });
+
+
 }
 
 function addProduct(req, res) {
-    if (!req.body) return res.sendStatus(400);
+    console.log("addPRoduct");
+    var newProduct = Product({
+        description: req.body.description,
+        name: req.body.name,
+        price: req.body.price
+    })
 
-    var productName = req.body.name;
-    var productDescription = req.body.description;
-    var productPrice=req.body.price;
-    var product = {
-        name: productName,
-        description: productDescription,
-        price:productPrice
-    };
+    console.log(newProduct);
 
-    mongoClient.connect(url, function (err, db) {
-        db.collection("products").insertOne(product, function (err, result) {
+    newProduct.save(function (err) {
+        if (err) throw err;
+        console.log("srabotalo");
+        res.send(newProduct);
 
-            if (err) return res.status(400).send();
-
-            res.send(product);
-            db.close();
-        });
-    });
+    })
 }
 
 function removeProduct(req, res) {
     var id = new objectId(req.params.id);
-    mongoClient.connect(url, function (err, db) {
-        db.collection("products").findOneAndDelete({_id: id}, function (err, result) {
-
-            if (err) return res.status(400).send();
-
-            var product = result.value;
-            res.send(product);
-            db.close();
-        });
+    Product.findOne({_id: id}, function (err, product) {
+        if (err) return console.error(err);
+        product.remove(function (err) {
+            if (err) throw err;
+            console.log("successfully deleted!");
+        })
     });
 }
 
