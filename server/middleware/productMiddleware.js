@@ -1,85 +1,74 @@
 var express = require("express");
 var bodyParser = require("body-parser");
 var objectId = require("mongodb").ObjectID;
-var Product = require('../models/products');
+var Product = require('../model/product');
 
 var jsonParser = bodyParser.json();
 var url = "mongodb://localhost:27017/productlistdb";
 
-function getProducts(req, res) {
+function loadAll(req, res) {
     Product.find(function (err, products) {
-        if (err)return console.error(err);
+        if (err)
+            return console.error(err);
         res.send(products);
     })
-
 };
 
-function getProductById(req, res) {
-    console.log("my tut v product py id");
+function loadById(req, res) {
     var id = new objectId(req.params.id)
     Product.findOne({_id: id}, function (err, product) {
         if (err) return console.error(err);
         res.send(product);
-
     })
 };
 
-function updateProduct(req, res) {
+function update(req, res) {
     var id = new objectId(req.params.id);
     Product.findOne({_id: id}, function (err, product) {
-        if (err) return console.error(err);
+        if (err)
+            return console.error(err);
         var body = {
-            description: req.body.description,
             name: req.body.name,
+            description: req.body.description,
             price: req.body.price
         };
-        console.log(body);
         product.update(body, function (err, result) {
-
-            if (err) throw err;
-            console.log(result);
-            console.log("1");
+            if (err)
+                console.error(err);
             res.send(product);
         })
     });
-
-
 }
 
-function addProduct(req, res) {
-    console.log("addPRoduct");
+function create(req, res) {
     var newProduct = Product({
-        description: req.body.description,
         name: req.body.name,
+        description: req.body.description,
         price: req.body.price
-    })
-
-    console.log(newProduct);
-
+    });
     newProduct.save(function (err) {
-        if (err) throw err;
-        console.log("srabotalo");
+        if (err)
+            throw err;
         res.send(newProduct);
-
     })
 }
 
-function removeProduct(req, res) {
+function remove(req, res) {
     var id = new objectId(req.params.id);
     Product.findOne({_id: id}, function (err, product) {
-        if (err) return console.error(err);
+        if (err)
+            return console.error(err);
         product.remove(function (err) {
-            if (err) throw err;
-            console.log("successfully deleted!");
+            if (err)
+                console.error(err);
         })
     });
 }
 
-
 module.exports = {
-    getProducts,
-    getProductById,
-    updateProduct,
-    addProduct,
-    removeProduct
+    loadAll,
+    loadById,
+    update,
+    create,
+    remove
 };
