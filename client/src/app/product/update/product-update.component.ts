@@ -2,9 +2,7 @@ import {Component, OnInit} from "@angular/core";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {ActivatedRoute, Router} from "@angular/router";
 import {Product} from "../../model/product";
-import {CommonService} from "../../common/common.service";
-import {api} from "../../constants/api";
-import {regex} from "../../constants/regex";
+import {ProductService} from "../product.service";
 
 @Component({
     selector: 'product-update-component',
@@ -13,11 +11,11 @@ import {regex} from "../../constants/regex";
 })
 export class ProductUpdateComponent implements OnInit {
     productForm: FormGroup;
-    loading: boolean;
+    loading: boolean = false;
     product: Product;
+    productsURL = '/server/routes/product/';
 
-    constructor(private productService: CommonService, private router: Router, private route: ActivatedRoute) {
-        this.loading = false;
+    constructor(private productService: ProductService, private router: Router, private route: ActivatedRoute) {
     }
 
     ngOnInit(): void {
@@ -28,14 +26,13 @@ export class ProductUpdateComponent implements OnInit {
     private createEmptyForm(): void {
         this.productForm = new FormGroup({
             name: new FormControl('', Validators.required),
-            cost: new FormControl('', [Validators.required, Validators.pattern(regex.DOUBLE)]),
-            type: new FormControl(''),
-            details: new FormControl('', Validators.pattern(regex.DETAILS))
+            description: new FormControl('', Validators.required),
+            price: new FormControl('', Validators.required)
         });
     }
 
     private load(): void {
-        this.productService.loadById(api.PRODUCT, this.route.snapshot.params['id'])
+        this.productService.loadById(this.productsURL, this.route.snapshot.params['id'])
             .subscribe(
                 product => {
                     this.product = product;
@@ -47,16 +44,15 @@ export class ProductUpdateComponent implements OnInit {
     private fillForm(product: Product): void {
         this.productForm.setValue({
             name: product.name,
-            cost: product.cost,
-            type: product.type,
-            details: product.details
+            description: product.description,
+            price: product.price
         });
     }
 
     onSubmit(): void {
         this.loading = true;
         this.fillUpdatedProduct();
-        this.productService.update(api.PRODUCT, this.product)
+        this.productService.update(this.productsURL, this.product)
             .subscribe(
                 () => this.router.navigate(['product/product-content']),
                 err => this.logError(err));
@@ -64,9 +60,8 @@ export class ProductUpdateComponent implements OnInit {
 
     private fillUpdatedProduct(): void {
         this.product.name = this.productForm.value.name;
-        this.product.cost = this.productForm.value.cost;
-        this.product.type = this.productForm.value.type;
-        this.product.details = this.productForm.value.details;
+        this.product.description = this.productForm.value.description;
+        this.product.price = this.productForm.value.price;
     }
 
     logError(error): void {

@@ -1,6 +1,7 @@
 import {Component, OnInit} from "@angular/core";
 import {Product} from "../../model/product";
 import {ProductService} from "../product.service";
+import {Router} from "@angular/router";
 
 @Component({
     selector: 'product-content-component',
@@ -8,9 +9,9 @@ import {ProductService} from "../product.service";
 })
 export class ProductContentComponent implements OnInit{
     productList: Product[];
-    productsURL = '/server/routes/product/products/';
+    productsURL = '/server/routes/product';
 
-    constructor(private productService: ProductService) {
+    constructor(private productService: ProductService, private router: Router) {
     }
 
     ngOnInit(): void {
@@ -20,6 +21,10 @@ export class ProductContentComponent implements OnInit{
     private loadData() {
         this.productService.loadAll(this.productsURL)
             .subscribe(productList => this.productList = productList);
+    }
+
+    onEdit(identifier: number): void {
+        identifier && this.router.navigate(['product/product-update', identifier]);
     }
 
     onDelete(identifier: number): void {

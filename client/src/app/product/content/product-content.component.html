@@ -7,6 +7,7 @@
             <th>Name</th>
             <th>Description</th>
             <th>Price</th>
+            <th>Operations</th>
         </tr>
         </thead>
         <tbody>
@@ -15,6 +16,10 @@
             <td>{{product.name}}</td>
             <td>{{product.description}}</td>
             <td>{{product.price}}</td>
+            <td>
+                <button class="btn btn-warning" (click)="onEdit(product._id)">Edit</button>
+                <button class="btn btn-danger" (click)="onDelete(product._id)">Remove</button>
+            </td>
         </tr>
         </tbody>
     </table>

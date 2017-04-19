@@ -9,6 +9,7 @@ import {BrowserModule} from "@angular/platform-browser";
 import {ProductRoutingModule} from "./product-routing.module";
 import {ProductCreateComponent} from "./create/product-create.component";
 import {ProductService} from "./product.service";
+import {ProductUpdateComponent} from "./update/product-update.component";
 @NgModule({
     imports: [
         BrowserModule,
@@ -23,6 +24,7 @@ import {ProductService} from "./product.service";
         ProductComponent,
         ProductContentComponent,
         ProductCreateComponent,
+        ProductUpdateComponent
     ],
     providers: [
         ProductService

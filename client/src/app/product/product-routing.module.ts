@@ -3,6 +3,7 @@ import {RouterModule, Routes} from "@angular/router";
 import {ProductComponent} from "./product.component";
 import {ProductContentComponent} from "./content/product-content.component";
 import {ProductCreateComponent} from "./create/product-create.component";
+import {ProductUpdateComponent} from "./update/product-update.component";
 
 export const routes: Routes = [
     {
@@ -12,6 +13,10 @@ export const routes: Routes = [
             {
                 path: 'product-create',
                 component: ProductCreateComponent
+            },
+            {
+                path: 'product-update/:id',
+                component: ProductUpdateComponent
             }
         ]
     }

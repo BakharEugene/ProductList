@@ -20,12 +20,6 @@ export class ProductService {
             .catch(ProductService.handleError);
     }
 
-    loadByName(URL: string, name: string) {
-        return this.http.get(URL + "/name/" + name)
-            .map((response: Response) => response.json())
-            .catch(ProductService.handleError);
-    }
-
     create(URL: string, body: any) {
         return this.http.post(URL, body)
             .map((response: Response) => response)

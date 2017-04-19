@@ -24,7 +24,8 @@ function getProductById(req, res) {
 };
 
 function updateProduct(req, res) {
-    var id = new objectId(req.params.id);
+    var id = new objectId(req.body._id);
+    console.log(id);
     Product.findOne({_id: id}, function (err, product) {
         if (err) return console.error(err);
         var body = {
@@ -34,10 +35,8 @@ function updateProduct(req, res) {
         };
         console.log(body);
         product.update(body, function (err, result) {
-
             if (err) throw err;
             console.log(result);
-            console.log("1");
             res.send(product);
         })
     });
