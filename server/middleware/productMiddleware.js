@@ -6,69 +6,79 @@ var Product = require('../model/product');
 var jsonParser = bodyParser.json();
 var url = "mongodb://localhost:27017/productlistdb";
 
-function loadAll(req, res) {
+function getProducts(req, res) {
     Product.find(function (err, products) {
-        if (err)
-            return console.error(err);
+        if (err)return console.error(err);
         res.send(products);
     })
+
 };
 
-function loadById(req, res) {
+function getProductById(req, res) {
     var id = new objectId(req.params.id)
     Product.findOne({_id: id}, function (err, product) {
         if (err) return console.error(err);
         res.send(product);
+
     })
 };
 
-function update(req, res) {
+function updateProduct(req, res) {
     var id = new objectId(req.params.id);
     Product.findOne({_id: id}, function (err, product) {
-        if (err)
-            return console.error(err);
+        if (err) return console.error(err);
         var body = {
-            name: req.body.name,
             description: req.body.description,
+            name: req.body.name,
             price: req.body.price
         };
+        console.log(body);
         product.update(body, function (err, result) {
-            if (err)
-                console.error(err);
+
+            if (err) throw err;
+            console.log(result);
+            console.log("1");
             res.send(product);
         })
     });
+
+
 }
 
-function create(req, res) {
+function addProduct(req, res) {
+    console.log("addPRoduct");
     var newProduct = Product({
-        name: req.body.name,
         description: req.body.description,
+        name: req.body.name,
         price: req.body.price
-    });
+    })
+
+    console.log(newProduct);
+
     newProduct.save(function (err) {
-        if (err)
-            throw err;
+        if (err) throw err;
+        console.log("srabotalo");
         res.send(newProduct);
+
     })
 }
 
-function remove(req, res) {
+function removeProduct(req, res) {
     var id = new objectId(req.params.id);
     Product.findOne({_id: id}, function (err, product) {
-        if (err)
-            return console.error(err);
+        if (err) return console.error(err);
         product.remove(function (err) {
-            if (err)
-                console.error(err);
+            if (err) throw err;
+            console.log("successfully deleted!");
         })
     });
 }
 
+
 module.exports = {
-    loadAll,
-    loadById,
-    update,
-    create,
-    remove
+    getProducts,
+    getProductById,
+    updateProduct,
+    addProduct,
+    removeProduct
 };

@@ -7,7 +7,8 @@ import {CommonModule} from "@angular/common";
 import {HttpModule} from "@angular/http";
 import {BrowserModule} from "@angular/platform-browser";
 import {ProductRoutingModule} from "./product-routing.module";
-import {CommonService} from "../common/common.service";
+import {ProductCreateComponent} from "./create/product-create.component";
+import {ProductService} from "./product.service";
 @NgModule({
     imports: [
         BrowserModule,
@@ -20,10 +21,11 @@ import {CommonService} from "../common/common.service";
     ],
     declarations: [
         ProductComponent,
-        ProductContentComponent
+        ProductContentComponent,
+        ProductCreateComponent,
     ],
     providers: [
-        CommonService
+        ProductService
     ]
 })
 export class ProductModule {
